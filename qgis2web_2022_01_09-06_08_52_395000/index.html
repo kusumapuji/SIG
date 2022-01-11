@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/adm_kabupaten_Semarang_0.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-7.48422014886,110.274511678],[-6.99921421562,110.652520534]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        L.control.locate().addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+        }
+        function pop_adm_kabupaten_Semarang_0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['provinsi'] !== null ? Autolinker.link(String(feature.properties['provinsi'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kabupaten'] !== null ? Autolinker.link(String(feature.properties['kabupaten'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">kecamatan</th>\
+                        <td>' + (feature.properties['kecamatan'] !== null ? Autolinker.link(String(feature.properties['kecamatan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">kode_dagri</th>\
+                        <td>' + (feature.properties['kode_dagri'] !== null ? Autolinker.link(String(feature.properties['kode_dagri'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">jml_desa</th>\
+                        <td>' + (feature.properties['jml_desa'] !== null ? Autolinker.link(String(feature.properties['jml_desa'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">jml_kel</th>\
+                        <td>' + (feature.properties['jml_kel'] !== null ? Autolinker.link(String(feature.properties['jml_kel'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">jml_rw</th>\
+                        <td>' + (feature.properties['jml_rw'] !== null ? Autolinker.link(String(feature.properties['jml_rw'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">jml_rt</th>\
+                        <td>' + (feature.properties['jml_rt'] !== null ? Autolinker.link(String(feature.properties['jml_rt'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">jml_pend</th>\
+                        <td>' + (feature.properties['jml_pend'] !== null ? Autolinker.link(String(feature.properties['jml_pend'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_adm_kabupaten_Semarang_0_0(feature) {
+            switch(String(feature.properties['kecamatan'])) {
+                case 'Ambarawa':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(100,200,47,1.0)',
+            }
+                    break;
+                case 'Bancak':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(135,76,236,1.0)',
+            }
+                    break;
+                case 'Bandungan':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,84,55,1.0)',
+            }
+                    break;
+                case 'Banyubiru':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(64,105,227,1.0)',
+            }
+                    break;
+                case 'Bawen':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(59,201,94,1.0)',
+            }
+                    break;
+                case 'Bergas':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(230,65,137,1.0)',
+            }
+                    break;
+                case 'Bringin':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(209,134,68,1.0)',
+            }
+                    break;
+                case 'Getasan':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,14,209,1.0)',
+            }
+                    break;
+                case 'Jambu':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,142,216,1.0)',
+            }
+                    break;
+                case 'Kaliwungu':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(60,52,210,1.0)',
+            }
+                    break;
+                case 'Pabelan':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,211,96,1.0)',
+            }
+                    break;
+                case 'Pringapus':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(117,207,194,1.0)',
+            }
+                    break;
+                case 'Sumowono':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,114,198,1.0)',
+            }
+                    break;
+                case 'Suruh':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(169,69,219,1.0)',
+            }
+                    break;
+                case 'Susukan':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(104,205,160,1.0)',
+            }
+                    break;
+                case 'Tengaran':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(172,228,67,1.0)',
+            }
+                    break;
+                case 'Tuntang':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(80,185,203,1.0)',
+            }
+                    break;
+                case 'Ungaran Barat':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,44,67,1.0)',
+            }
+                    break;
+                case 'Ungaran Timur':
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(30,217,20,1.0)',
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_adm_kabupaten_Semarang_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(239,193,41,1.0)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_adm_kabupaten_Semarang_0');
+        map.getPane('pane_adm_kabupaten_Semarang_0').style.zIndex = 400;
+        map.getPane('pane_adm_kabupaten_Semarang_0').style['mix-blend-mode'] = 'normal';
+        var layer_adm_kabupaten_Semarang_0 = new L.geoJson(json_adm_kabupaten_Semarang_0, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_adm_kabupaten_Semarang_0',
+            onEachFeature: pop_adm_kabupaten_Semarang_0,
+            style: style_adm_kabupaten_Semarang_0_0,
+        });
+        bounds_group.addLayer(layer_adm_kabupaten_Semarang_0);
+        map.addLayer(layer_adm_kabupaten_Semarang_0);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'adm_kabupaten_Semarang<br /><table><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Ambarawa0.png" /></td><td>Ambarawa</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Bancak1.png" /></td><td>Bancak</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Bandungan2.png" /></td><td>Bandungan</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Banyubiru3.png" /></td><td>Banyubiru</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Bawen4.png" /></td><td>Bawen</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Bergas5.png" /></td><td>Bergas</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Bringin6.png" /></td><td>Bringin</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Getasan7.png" /></td><td>Getasan</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Jambu8.png" /></td><td>Jambu</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Kaliwungu9.png" /></td><td>Kaliwungu</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Pabelan10.png" /></td><td>Pabelan</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Pringapus11.png" /></td><td>Pringapus</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Sumowono12.png" /></td><td>Sumowono</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Suruh13.png" /></td><td>Suruh</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Susukan14.png" /></td><td>Susukan</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Tengaran15.png" /></td><td>Tengaran</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_Tuntang16.png" /></td><td>Tuntang</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_UngaranBarat17.png" /></td><td>Ungaran Barat</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_UngaranTimur18.png" /></td><td>Ungaran Timur</td></tr><tr><td style="text-align: center;"><img src="legend/adm_kabupaten_Semarang_0_19.png" /></td><td></td></tr></table>': layer_adm_kabupaten_Semarang_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_adm_kabupaten_Semarang_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['kecamatan'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['kecamatan']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_adm_kabupaten_Semarang_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        map.addControl(new L.Control.Search({
+            layer: layer_adm_kabupaten_Semarang_0,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'kecamatan'}));
+        resetLabels([layer_admkabupatenSemarang_0]);
+        map.on("zoomend", function(){
+            resetLabels([layer_admkabupatenSemarang_0]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_admkabupatenSemarang_0]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_admkabupatenSemarang_0]);
+        });
+        </script>
+    </body>
+</html>
